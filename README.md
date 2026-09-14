@@ -7,6 +7,8 @@ La auditoría está fijada inicialmente al commit de Krypta `a97cbabd95e3787deca
 ## Documentación
 
 - [Plan de auditoría](docs/00-plan-auditoria.md)
+- [Manifiesto y entorno](docs/01-manifiesto-y-entorno.md)
+- [Diario de auditoría](docs/diario-auditoria.md)
 
 Los resultados se incorporarán progresivamente y distinguirán entre afirmaciones del diseño, comportamiento del código y propiedades demostradas por pruebas.
 

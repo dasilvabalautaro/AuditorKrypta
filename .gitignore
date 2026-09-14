@@ -14,3 +14,6 @@ evidence/private/
 *.log
 build/
 .gradle/
+
+# Disposable, isolated checkout used to execute untrusted/building tools.
+.audit-work/
