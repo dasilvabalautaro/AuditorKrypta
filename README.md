@@ -11,6 +11,7 @@ La auditoría está fijada inicialmente al commit de Krypta `a97cbabd95e3787deca
 - [Diario de auditoría](docs/diario-auditoria.md)
 - [Evidencia de la línea base de pruebas](evidence/linea-base-pruebas-2026-09-14.md)
 - [Revisión de la actualización AAR/APK](evidence/revision-aar-apk-2026-09-14.md)
+- [Reconstrucción reproducible del AAR posterior](evidence/revision-aar-reproducible-8d-2026-09-14.md)
 
 Los resultados se incorporarán progresivamente y distinguirán entre afirmaciones del diseño, comportamiento del código y propiedades demostradas por pruebas.
 

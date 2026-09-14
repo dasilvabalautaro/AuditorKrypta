@@ -6,7 +6,7 @@
 
 **Captura:** 14 de septiembre de 2026, 10:30:57 UTC
 
-**Estado:** copia aislada y línea base local completadas; procedencia del AAR pendiente
+**Estado:** línea base completada; correspondencia fuente–AAR posterior verificada para el commit `8d028754…`
 
 ## 1. Regla de preservación
 
@@ -135,6 +135,20 @@ El 14 de septiembre de 2026 se observaron dos commits posteriores:
 
 El único cambio ejecutable de estos commits dentro de la ruta revisada es la creación del directorio de salida en el script de build; no cambia el código criptográfico ni el contenido de la etiqueta. El objeto de auditoría se mantiene en `a97cbabd…`; los dos commits se aceptan como evidencia documental suplementaria.
 
+### Actualización observada el 14 de septiembre (HEAD posterior)
+
+La rama `main` de Krypta avanzó hasta `ea088b1f7bc8d029f708b73040d09d42c7e02536`, dos commits posteriores a la captura congelada. El commit ejecutable relevante es `8d028754de6ee16085239c027a0d34babe05ae0b`, que rehace `build-aar.sh` para una salida reproducible, fija NDK 26.1.10909125/JDK 25, usa `-trimpath`, limita el proguard y enlaza `buildCommit` con el SHA de Git (o `-modificado`). El commit `ea088b1f…` documenta la comprobación del autor y corrige la afirmación del NDK de los binarios antiguos.
+
+Se revisó la documentación y se hizo una reconstrucción independiente en dos clones temporales con Git, cachés Go separadas y el mismo commit `8d028754…`. Ambas ejecuciones terminaron correctamente y produjeron el mismo AAR:
+
+```text
+d817bae1d5cfec41cddb8f1213469d9c78f05789806d992ba2c408c2f024f4e0
+```
+
+Los cuatro ABIs incluyeron el commit esperado, no conservaron rutas locales y respetaron alineación ELF de 16 KB. Esto verifica de forma independiente la cadena fuente posterior `8d028754… → AAR`, pero no cambia el objeto congelado ni demuestra la reproducibilidad del AAR/APK antiguos de `revision-externa-1`. La release pública sigue sirviendo esos binarios antiguos (`4b7dcd…` AAR y `a30ab8…` APK); el APK nuevo mencionado en la documentación no está publicado como asset verificable.
+
+La limitación residual es de alcance: la reconstrucción se hizo en un único Mac y no cubre reproducibilidad del APK ni de otra máquina. La evidencia detallada está en `evidence/revision-aar-reproducible-8d-2026-09-14.md`.
+
 ## 6. Integridad del wrapper
 
 | Archivo rastreado | SHA-256 |
@@ -210,6 +224,8 @@ El intento fallido de `./gradlew --version` queda documentado en la sección ant
 - [x] Restricción de solo lectura operacionalizada.
 - [x] Copia de ejecución aislada creada y verificada.
 - [x] Línea base de pruebas local ejecutada en la copia.
-- [ ] Correspondencia fuente–AAR evaluada.
+- [x] Correspondencia fuente–AAR evaluada para el build posterior `8d028754…`.
+
+La procedencia del AAR de la etiqueta congelada sigue siendo una cuestión histórica separada; no se cierra con la reconstrucción posterior.
 
 La correspondencia fuente–AAR es la actividad pendiente de la Fase 0. Las sondas live, pruebas instrumentadas en dispositivo y reproducción por una segunda máquina quedan fuera de esta línea base local y se registrarán como trabajo posterior.

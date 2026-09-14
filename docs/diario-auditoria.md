@@ -128,3 +128,13 @@ El primer intento de repetir Gradle con el AAR publicado se ejecutó sin acceso 
 ### Próximo paso
 
 Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar una comparación semántica que tolere las rutas y metadatos no reproducibles. Después cerrar o acotar definitivamente P-001.
+
+### 07:25–08:05 BOT — Revisión de actualizaciones y reconstrucción AAR posterior
+
+- Se revisó la documentación nueva de Krypta hasta `ea088b1f…` y se confirmó que el tag `revision-externa-1` no cambió.
+- Se inspeccionó el cambio `8d028754…`: NDK 26.1 fijo, `-trimpath`, commit inyectado, comprobaciones de 16 KB y ausencia de rutas locales.
+- Se construyó el AAR en dos clones Git temporales, con cachés Go independientes y sin ejecutar herramientas en Krypta.
+- Ambas ejecuciones pasaron las comprobaciones de los cuatro ABIs y produjeron SHA-256 idéntico `d817bae1…f4e0`.
+- La release pública sigue conteniendo únicamente los binarios antiguos de `revision-externa-1`; no se observó un asset público para el AAR/APK posterior.
+- P-001 queda cerrada para la cadena posterior `8d028754… → AAR` en este anfitrión, pero abierta para los binarios históricos y para reproducibilidad cross-host/APK.
+- Se registró deuda documental menor en `infra/fdroid-repo/README.md` (referencia al AAR como rastreado).
