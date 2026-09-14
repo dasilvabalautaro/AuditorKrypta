@@ -13,6 +13,7 @@ La auditoría está fijada inicialmente al commit de Krypta `a97cbabd95e3787deca
 - [Revisión de la actualización AAR/APK](evidence/revision-aar-apk-2026-09-14.md)
 - [Reconstrucción reproducible del AAR posterior](evidence/revision-aar-reproducible-8d-2026-09-14.md)
 - [Especificación criptográfica normalizada (Fase 1)](evidence/especificacion-normalizada-fase1-2026-09-14.md)
+- [Verificación dinámica inicial](docs/08-verificacion-dinamica.md)
 
 Los resultados se incorporarán progresivamente y distinguirán entre afirmaciones del diseño, comportamiento del código y propiedades demostradas por pruebas.
 

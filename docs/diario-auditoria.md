@@ -146,3 +146,11 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - Se confirmó que los frames de llamada no llevan contador; queda como candidato W-8 para la revisión dinámica.
 - Se abrió C-001: un timestamp futuro en un invite no se rechaza por la comprobación de antigüedad; queda pendiente determinar impacto de replay/disponibilidad.
 - No se modificó Krypta. La evidencia se guardó en `evidence/especificacion-normalizada-fase1-2026-09-14.md`.
+
+### 08:40–09:20 BOT — Verificación dinámica W-8 y C-001
+
+- Se ejecutó una prueba externa en la copia aislada: el mismo frame AES-GCM se descifra dos veces correctamente, confirmando que el canal de medios no tiene anti-replay por contador.
+- Se ejecutó una prueba externa con `invite` E2EE cuyo timestamp está una hora en el futuro; el receptor lo aceptó y pasó a `RINGING`.
+- W-8 queda abierto como debilidad de frescura/orden; C-001 queda como candidato de disponibilidad/replay, pendiente de medir deduplicación e impacto de llamadas repetidas.
+- La suite dirigida terminó con `BUILD SUCCESSFUL`; el árbol original de Krypta permaneció limpio.
+- Se documentó el lote en `docs/08-verificacion-dinamica.md`.
