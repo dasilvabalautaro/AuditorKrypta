@@ -16,12 +16,20 @@ checked=269 mismatches=0
 
 Se repitió la verificación después de las pruebas con el mismo resultado. El estado del repositorio Krypta original devolvió cero entradas antes y después.
 
-Los artefactos no versionados se añadieron después de verificar los 269 archivos:
+Los artefactos no versionados se añadieron después de verificar los 269 archivos. La primera captura usó:
 
 ```text
 c1b4f1eb2a7eada06ff536fad396d4f31ba5ddb8dca20c73984491c913f1a400  native-bridge/libs/krypta-p2p.aar
 fd26966fe8d0f0bb016f7f0bccc7610211aa680c0896366fa3482acd68bf287e  native-bridge/libs/krypta-p2p-sources.jar
 ```
+
+Más tarde el proyecto publicó y sustituyó el AAR por el construido para la etiqueta:
+
+```text
+4b7dcd5130d8bb0c89b4e5bcd2661fea4cbd2e267b777303b2a5d412fb6e49b4  native-bridge/libs/krypta-p2p.aar
+```
+
+La copia aislada se actualizó con ese AAR y la suite Gradle completa se repitió con `--rerun-tasks`.
 
 ## 2. Aislamiento
 
@@ -128,6 +136,20 @@ Resumen extraído de los XML JUnit:
 ```text
 tests=279 skipped=0 failures=0 errors=0
 ```
+
+### Repetición con el AAR publicado
+
+```sh
+gradle --no-daemon --console=plain --rerun-tasks testDebugUnitTest
+```
+
+```text
+BUILD SUCCESSFUL in 50s
+127 actionable tasks: 127 executed
+tests=279 skipped=0 failures=0 errors=0
+```
+
+Un primer intento sin acceso a sockets locales terminó antes del build porque Gradle no pudo crear `FileLockContentionHandler`. Se descartó como limitación del sandbox y se repitió correctamente sin cambiar código.
 
 Suites directamente relacionadas con el alcance:
 

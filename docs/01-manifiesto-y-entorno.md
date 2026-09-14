@@ -101,17 +101,39 @@ Los siguientes archivos existen físicamente, pero están ignorados y no forman 
 
 También existen numerosos productos bajo directorios `build/`, todos ignorados. No se utilizarán como sustituto del código fuente ni como evidencia de una compilación reproducible.
 
-### Cuestión de procedencia P-001
+### Cuestión de procedencia P-001 — parcialmente resuelta
 
 El módulo Android declara una dependencia de archivo sobre `native-bridge/libs/krypta-p2p.aar`, pero el AAR está excluido de Git. Por tanto, el commit fuente por sí solo no determina los bytes del componente Go que consume Android.
 
-Esto se registra inicialmente como **cuestión de procedencia**, no como vulnerabilidad. Para resolverla será necesario:
+Esto se registra como **cuestión de procedencia**, no como vulnerabilidad. Una actualización posterior publicó el AAR y el APK arm64 de la etiqueta. La revisión independiente de esa actualización se encuentra en `evidence/revision-aar-apk-2026-09-14.md`.
+
+Quedó demostrado que:
+
+- la release pública está unida a la etiqueta que resuelve al commit auditado;
+- el AAR local actual coincide en tamaño y SHA-256 con el asset publicado;
+- el APK publicado coincide con su digest y suma declarada;
+- el `libgojni.so` arm64 del APK es exactamente el resultado de aplicar `llvm-strip --strip-unneeded` al del AAR publicado.
+
+Sigue sin quedar demostrado a partir del binario que el AAR fue producido por las fuentes del commit: lleva el módulo como `(devel)`, una ruta local y ningún identificador del commit. La afirmación «compilado desde un clon limpio de la etiqueta» sigue dependiendo de la atestación del autor y de una futura comparación/reconstrucción no bit a bit.
+
+Para cerrar P-001 será necesario:
 
 1. inspeccionar el contenido y metadatos del AAR;
 2. comparar las fuentes adjuntas con `native-bridge/libp2p`;
 3. reconstruir el AAR desde el commit congelado en el entorno aislado;
 4. comparar artefactos o, si la compilación no es bit a bit reproducible, comparar símbolos, API, fuentes y comportamiento;
-5. identificar qué AAR produjo la aplicación distribuida que se pretende evaluar.
+5. establecer una vinculación verificable entre las fuentes y el AAR, aun cuando la compilación actual no sea reproducible bit a bit.
+
+### Actualización observada después del commit congelado
+
+El 14 de septiembre de 2026 se observaron dos commits posteriores:
+
+| Commit | Propósito |
+|---|---|
+| `26bd4056cc90cae9e42b67e5d454742e845d0ed9` | Añade `mkdir -p ../libs` a `build-aar.sh` y documenta los binarios construidos desde la etiqueta. |
+| `d820609195513eb242165366aeecee76c2be4b5a` | Documenta la publicación de la release con AAR, APK y sumas. |
+
+El único cambio ejecutable de estos commits dentro de la ruta revisada es la creación del directorio de salida en el script de build; no cambia el código criptográfico ni el contenido de la etiqueta. El objeto de auditoría se mantiene en `a97cbabd…`; los dos commits se aceptan como evidencia documental suplementaria.
 
 ## 6. Integridad del wrapper
 
@@ -142,13 +164,13 @@ Después de esa comprobación se copiaron por separado el AAR, el JAR de fuentes
 | Nodo Go | `go test -count=1 ./...` | pasa |
 | Puente Go con detector de carreras | `go test -race -count=1 ./...` | pasa |
 | Nodo Go con detector de carreras | `go test -race -count=1 ./...` | pasa |
-| Unitarias Gradle debug | `gradle --no-daemon testDebugUnitTest` | 279 pasan; 0 omitidas; 0 fallos; 0 errores |
+| Unitarias Gradle debug con AAR publicado | `gradle --no-daemon --rerun-tasks testDebugUnitTest` | 279 pasan; 0 omitidas; 0 fallos; 0 errores |
 
 El puente declara 49 funciones de prueba y el nodo 24. En una ejecución JSON del puente se omitieron correctamente diez sondas que exigen infraestructura live. El nodo ejecutó 24 pruebas sin omisiones.
 
 Una repetición JSON del puente observó un fallo aislado en `TestMailboxRedeliverUnacked`. La prueba pasó antes, pasó bajo `-race` y después pasó 220 repeticiones dirigidas consecutivas. Se conserva como observación de estabilidad **T-001**, no como vulnerabilidad ni fallo confirmado.
 
-Las ejecuciones Gradle produjeron advertencias de compilación relativas a APIs experimentales, destinos futuros de anotaciones y APIs obsoletas. No impidieron la compilación ni las pruebas; se revisarán únicamente si afectan al camino auditado.
+La primera ejecución Gradle usó el AAR local anterior `c1b4…`, porque el autor lo sustituyó después de capturar la línea base. Se corrigió la copia aislada con el AAR publicado `4b7d…` y se forzó la ejecución de las 127 tareas: las mismas 279 pruebas pasaron. Las ejecuciones produjeron advertencias de compilación relativas a APIs experimentales, destinos futuros de anotaciones y APIs obsoletas. No impidieron la compilación ni las pruebas; se revisarán únicamente si afectan al camino auditado.
 
 ### 7.2 Intentos no válidos
 

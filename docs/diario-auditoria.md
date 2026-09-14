@@ -99,3 +99,32 @@ La ejecución dirigida pasó 20 repeticiones y después 200 repeticiones adicion
 ### Próximo paso actualizado
 
 Analizar la procedencia del AAR y su JAR de fuentes. Después comenzar la reconstrucción independiente de la especificación y el modelo de amenazas.
+
+### 07:12–07:19 BOT — Actualización documental y binarios publicados
+
+- Se detectó que Krypta avanzó dos commits después de la etiqueta auditada:
+  - `26bd4056…`: corrección de `build-aar.sh` para crear `../libs` en un clon limpio;
+  - `d8206091…`: documentación de la release ya publicada.
+- Se revisaron los diffs completos de README, solicitud externa, plan de confianza, pruebas pendientes, revisión del protocolo y notas del proyecto.
+- Se confirmó que `revision-externa-1` es una etiqueta anotada cuyo commit resuelto sigue siendo `a97cbabd…`.
+- Mediante la API de GitHub a través de `gh release view`, en modo lectura, se verificó que la release es pública, no borrador y prerelease, publicada a las `2026-09-14T11:11:21Z`.
+- Se verificaron tres assets: APK arm64, AAR y `SHA256SUMS.txt`; sus digests de GitHub coinciden con la documentación.
+- Se descargaron el APK y `SHA256SUMS.txt` únicamente en `.audit-work/` y se recalcularon sus hashes correctamente.
+- El AAR local actual coincide con el asset publicado: SHA-256 `4b7dcd51…49b4`, 79.250.313 bytes.
+- El APK coincide con el asset publicado: SHA-256 `a30ab852…76ea`, 69.849.412 bytes.
+- Se comprobó que el APK es `chat.neto.krypta` 1.5 (`versionCode` 6), minSdk 30, targetSdk 36 y solo contiene ABI arm64.
+- `apksigner` confirmó firma válida v2 con un certificado `CN=Android Debug`; no hay v1, v3, v3.1, v4 ni SourceStamp.
+- El `.so` arm64 del AAR y el del APK comparten Go Build ID y ELF Build ID.
+- Aplicar `llvm-strip --strip-unneeded` del NDK 26.1 al `.so` del AAR produjo byte por byte el `.so` del APK, SHA-256 `e1cf58bc…cc77`.
+- `go version -m` confirmó Go 1.26.4, dependencias coherentes con `go.mod`, módulo `(devel)`, ruta local embebida y ausencia de commit.
+- Se actualizó P-001 a **parcialmente resuelta**: la cadena AAR publicado → APK arm64 está demostrada; fuente etiquetada → AAR sigue dependiendo de atestación/no reproducibilidad.
+- La copia aislada sustituyó el AAR antiguo por el publicado. Gradle repitió las 127 tareas con `--rerun-tasks`: 279 pruebas pasaron, sin omisiones ni fallos.
+- Krypta original volvió a comprobarse limpio.
+
+### Incidente operacional F0-I05
+
+El primer intento de repetir Gradle con el AAR publicado se ejecutó sin acceso a sockets locales. Gradle terminó antes de configurar el proyecto porque `FileLockContentionHandler` no pudo crear su socket. Se descartó y se repitió con el permiso local necesario; el build pasó.
+
+### Próximo paso
+
+Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar una comparación semántica que tolere las rutas y metadatos no reproducibles. Después cerrar o acotar definitivamente P-001.
