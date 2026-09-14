@@ -6,7 +6,7 @@
 
 **Captura:** 14 de septiembre de 2026, 10:30:57 UTC
 
-**Estado:** línea base documental completada; ejecución reproducible pendiente en copia aislada
+**Estado:** copia aislada y línea base local completadas; procedencia del AAR pendiente
 
 ## 1. Regla de preservación
 
@@ -122,18 +122,41 @@ Esto se registra inicialmente como **cuestión de procedencia**, no como vulnera
 
 La comprobación de estos hashes solo fija los bytes observados. La autenticidad del JAR y de la distribución Gradle se evaluará antes de confiar en el wrapper.
 
-## 7. Línea base de ejecución
+## 7. Copia aislada y línea base de ejecución
 
-No se ejecutaron suites de pruebas en esta etapa.
+Se extrajo `git archive` del commit objetivo en la ruta ignorada `.audit-work/krypta-a97cbabd`. La copia contiene los 269 archivos versionados y no contiene metadatos Git ni referencia mutable a Krypta.
 
-Se intentó consultar `./gradlew --version` desde el directorio Krypta. El wrapper intentó abrir un archivo de bloqueo en la caché global `~/.gradle` y el sandbox denegó la operación antes de iniciar Gradle. El intento no produjo cambios rastreados en Krypta. Como consecuencia, se adoptó inmediatamente la regla operativa de no ejecutar herramientas de build desde ese árbol.
+Se comparó el blob Git esperado con `git hash-object` para cada archivo extraído:
 
-La línea base de pruebas se obtendrá desde una copia aislada con:
+```text
+checked=269 mismatches=0
+```
 
-- checkout explícito del commit objetivo;
-- directorios de caché y build fuera de Krypta;
-- red y dependencias documentadas;
-- captura de comandos, códigos de salida y hashes de resultados.
+Después de esa comprobación se copiaron por separado el AAR, el JAR de fuentes y `local.properties`. Los hashes del AAR y del JAR copiados coinciden con la sección 5. Las cachés de Go y Gradle se confinaron bajo `.audit-work/cache/`.
+
+### 7.1 Resultados
+
+| Suite | Comando conceptual | Resultado válido |
+|---|---|---|
+| Puente Go | `go test -count=1 ./...` | pasa |
+| Nodo Go | `go test -count=1 ./...` | pasa |
+| Puente Go con detector de carreras | `go test -race -count=1 ./...` | pasa |
+| Nodo Go con detector de carreras | `go test -race -count=1 ./...` | pasa |
+| Unitarias Gradle debug | `gradle --no-daemon testDebugUnitTest` | 279 pasan; 0 omitidas; 0 fallos; 0 errores |
+
+El puente declara 49 funciones de prueba y el nodo 24. En una ejecución JSON del puente se omitieron correctamente diez sondas que exigen infraestructura live. El nodo ejecutó 24 pruebas sin omisiones.
+
+Una repetición JSON del puente observó un fallo aislado en `TestMailboxRedeliverUnacked`. La prueba pasó antes, pasó bajo `-race` y después pasó 220 repeticiones dirigidas consecutivas. Se conserva como observación de estabilidad **T-001**, no como vulnerabilidad ni fallo confirmado.
+
+Las ejecuciones Gradle produjeron advertencias de compilación relativas a APIs experimentales, destinos futuros de anotaciones y APIs obsoletas. No impidieron la compilación ni las pruebas; se revisarán únicamente si afectan al camino auditado.
+
+### 7.2 Intentos no válidos
+
+Se intentó inicialmente consultar `./gradlew --version` desde Krypta. El wrapper intentó abrir un archivo de bloqueo en la caché global `~/.gradle` y el sandbox denegó la operación antes de iniciar Gradle. El intento no produjo cambios rastreados en Krypta.
+
+La primera ejecución `-race` se lanzó sin permiso de sockets locales y falló al hacer `bind`. Se repitió con loopback habilitado y ambas suites pasaron. Los fallos del primer intento son limitaciones del sandbox y no resultados de Krypta.
+
+Los detalles y comandos se encuentran en `evidence/linea-base-pruebas-2026-09-14.md`.
 
 ## 8. Comandos de identificación empleados
 
@@ -163,8 +186,8 @@ El intento fallido de `./gradlew --version` queda documentado en la sección ant
 - [x] Toolchains observados y declarados registrados.
 - [x] Artefactos binarios locales relevantes identificados y hasheados.
 - [x] Restricción de solo lectura operacionalizada.
-- [ ] Copia de ejecución aislada creada y verificada.
-- [ ] Línea base de pruebas reproducible ejecutada en la copia.
+- [x] Copia de ejecución aislada creada y verificada.
+- [x] Línea base de pruebas local ejecutada en la copia.
 - [ ] Correspondencia fuente–AAR evaluada.
 
-Los tres elementos pendientes son actividades de ejecución de la Fase 0 y se abordarán como el siguiente paso. La revisión sustantiva del protocolo puede comenzar en paralelo solo después de fijar la copia exacta de fuentes.
+La correspondencia fuente–AAR es la actividad pendiente de la Fase 0. Las sondas live, pruebas instrumentadas en dispositivo y reproducción por una segunda máquina quedan fuera de esta línea base local y se registrarán como trabajo posterior.
