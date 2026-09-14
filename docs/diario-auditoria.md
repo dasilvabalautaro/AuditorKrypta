@@ -138,3 +138,11 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - La release pública sigue conteniendo únicamente los binarios antiguos de `revision-externa-1`; no se observó un asset público para el AAR/APK posterior.
 - P-001 queda cerrada para la cadena posterior `8d028754… → AAR` en este anfitrión, pero abierta para los binarios históricos y para reproducibilidad cross-host/APK.
 - Se registró deuda documental menor en `infra/fdroid-repo/README.md` (referencia al AAR como rastreado).
+
+### 08:10–08:35 BOT — Inicio de Fase 1: reconstrucción de la especificación
+
+- Se relevaron las derivaciones HKDF/HMAC/AES-GCM, campos de cabecera, estados y límites del ratchet desde la especificación y el código del commit congelado.
+- Se normalizaron capacidades, claves de llamada y etiquetas de buzón en una matriz de trazabilidad.
+- Se confirmó que los frames de llamada no llevan contador; queda como candidato W-8 para la revisión dinámica.
+- Se abrió C-001: un timestamp futuro en un invite no se rechaza por la comprobación de antigüedad; queda pendiente determinar impacto de replay/disponibilidad.
+- No se modificó Krypta. La evidencia se guardó en `evidence/especificacion-normalizada-fase1-2026-09-14.md`.

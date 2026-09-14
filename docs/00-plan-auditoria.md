@@ -1,6 +1,6 @@
 # Plan de auditoría criptográfica de Krypta
 
-**Estado:** aprobado como plan inicial; auditoría aún no ejecutada
+**Estado:** Fase 1 en ejecución; línea base y procedencia posterior del AAR documentadas
 
 **Fecha de inicio:** 14 de septiembre de 2026
 
