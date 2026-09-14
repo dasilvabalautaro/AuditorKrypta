@@ -1,0 +1,16 @@
+# Local access notes and credentials must never be versioned.
+keys-git.md
+*.pem
+*.key
+
+# Private vulnerability material. Only sanitized/public artifacts are committed.
+findings/private/
+evidence/private/
+
+# Local tooling and operating-system files.
+.DS_Store
+.idea/
+.vscode/
+*.log
+build/
+.gradle/
