@@ -32,7 +32,7 @@ La auditoría no emitirá afirmaciones absolutas como «Krypta es seguro». Sus 
 3. **Trazabilidad.** Cada propiedad se vinculará con especificación, código, pruebas y conclusión.
 4. **Reproducibilidad.** Todo hallazgo tendrá evidencia y, cuando sea viable, una prueba automatizada o procedimiento mínimo de reproducción.
 5. **Divulgación responsable.** Los detalles que faciliten explotación de problemas sin corregir se mantendrán en un anexo privado hasta acordar su publicación.
-6. **Preservación.** La auditoría no modificará el repositorio Krypta salvo autorización expresa. Notas, modelos, resultados y pruebas externas vivirán en `AuditorKrypta`.
+6. **Preservación.** Por instrucción expresa del propietario, el proyecto Krypta y su repositorio local y remoto son estrictamente de solo lectura para esta auditoría. No se modificarán ni se les añadirá ningún archivo, commit, rama, etiqueta, issue, pull request u otro artefacto. Notas, modelos, resultados y pruebas externas vivirán exclusivamente en `AuditorKrypta`.
 
 ## 3. Alcance
 
