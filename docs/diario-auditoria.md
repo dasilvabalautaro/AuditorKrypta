@@ -222,3 +222,9 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - H-7/C-001 se separaron de W-14 para reflejar que la corrección de invites es volátil.
 - W-8 quedó acotado al modelo de relay relayed verificado.
 - Se creó el borrador estructural del informe publicable y se preservó la separación de material privado.
+
+### 19:20–19:40 BOT — Informe publicable sustantivo
+
+- Se convirtió el borrador estructural en un informe publicable con alcance, metodología, arquitectura, resultados, tabla de hallazgos, retest, recomendaciones y limitaciones.
+- Se mantuvieron visibles H-4, H-5, W-6, W-14 y C-001, sin presentar el modelo abstracto como verificación formal.
+- El documento se enlazó desde el README; no se modificó Krypta ni su repositorio.

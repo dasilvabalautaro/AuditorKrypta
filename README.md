@@ -26,6 +26,7 @@ La auditoría está fijada inicialmente al commit de Krypta `a97cbabd95e3787deca
 - [Análisis formal focalizado](docs/09-analisis-formal.md)
 - [Registro de hallazgos](docs/10-registro-hallazgos.md)
 - [Borrador del informe publicable](report/informe-publicable-borrador.md)
+- [Informe publicable](report/informe-publicable.md)
 
 Los resultados se incorporarán progresivamente y distinguirán entre afirmaciones del diseño, comportamiento del código y propiedades demostradas por pruebas.
 
