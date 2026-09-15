@@ -165,3 +165,10 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - W-8 queda acotado: el relay relayed no ve ni puede repetir frames dentro del circuito; la ausencia de contador en AES-GCM sigue siendo una propiedad de la primitiva, no una explotación demostrada contra ese relay.
 - C-001 debe reformularse como replay v1 sin deduplicación persistente por `callId`; el timestamp futuro es secundario.
 - Los cambios documentales están sin commit, por instrucción del propietario.
+
+### 12:00–12:25 BOT — Revisión de código Kotlin/Go posterior
+
+- Se trazaron `Ratchet`, `RatchetSessions`, `ChatService`, `CallService`, `MailboxLabel` y el framing Go contra `fe21111f…`.
+- H-7 y C-001 aparecen corregidos en Kotlin; la deduplicación de invites sigue siendo volátil y acotada a 256 entradas.
+- W-8 queda limitado por la capa Noise/TLS del circuito relayed, según la prueba Go del commit actualizado.
+- Se añadieron notas de revisión por lenguaje y se mantiene la separación entre propiedades de la primitiva AES-GCM y ataques posibles contra el transporte.

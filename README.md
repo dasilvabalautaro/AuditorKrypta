@@ -15,6 +15,8 @@ La auditoría está fijada inicialmente al commit de Krypta `a97cbabd95e3787deca
 - [Especificación criptográfica normalizada (Fase 1)](evidence/especificacion-normalizada-fase1-2026-09-14.md)
 - [Verificación dinámica inicial](docs/08-verificacion-dinamica.md)
 - [Verificación dinámica del commit `fe21111f`](evidence/revision-dinamica-fe21111-2026-09-15.md)
+- [Revisión de código Kotlin](docs/06-revision-codigo-kotlin.md)
+- [Revisión de código Go](docs/07-revision-codigo-go.md)
 
 Los resultados se incorporarán progresivamente y distinguirán entre afirmaciones del diseño, comportamiento del código y propiedades demostradas por pruebas.
 
