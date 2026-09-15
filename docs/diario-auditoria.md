@@ -215,3 +215,10 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - Se preparó un modelo abstracto del ratchet con reglas de derivación, consultas objetivo y contraejemplos H-4/H-5/W-6.
 - Se documentaron las diferencias entre el modelo idealizado y la implementación Kotlin/Go.
 - No se presentó ningún resultado como verificación formal ejecutada.
+
+### 18:40–19:10 BOT — Registro de hallazgos e informe publicable
+
+- Se consolidaron hallazgos corregidos, limitaciones abiertas y observaciones informativas.
+- H-7/C-001 se separaron de W-14 para reflejar que la corrección de invites es volátil.
+- W-8 quedó acotado al modelo de relay relayed verificado.
+- Se creó el borrador estructural del informe publicable y se preservó la separación de material privado.

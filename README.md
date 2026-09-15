@@ -24,6 +24,8 @@ La auditoría está fijada inicialmente al commit de Krypta `a97cbabd95e3787deca
 - [Retest actualizado de H-5/W-6 (`ebf2d43`)](evidence/retest-ebf2d43-h5-2026-09-15.md)
 - [Modelo abstracto del ratchet](models/ratchet-core.md)
 - [Análisis formal focalizado](docs/09-analisis-formal.md)
+- [Registro de hallazgos](docs/10-registro-hallazgos.md)
+- [Borrador del informe publicable](report/informe-publicable-borrador.md)
 
 Los resultados se incorporarán progresivamente y distinguirán entre afirmaciones del diseño, comportamiento del código y propiedades demostradas por pruebas.
 
