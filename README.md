@@ -17,6 +17,7 @@ La auditoría está fijada inicialmente al commit de Krypta `a97cbabd95e3787deca
 - [Verificación dinámica del commit `fe21111f`](evidence/revision-dinamica-fe21111-2026-09-15.md)
 - [Revisión de código Kotlin](docs/06-revision-codigo-kotlin.md)
 - [Revisión de código Go](docs/07-revision-codigo-go.md)
+- [Revisión del diseño criptográfico](docs/05-revision-diseno.md)
 
 Los resultados se incorporarán progresivamente y distinguirán entre afirmaciones del diseño, comportamiento del código y propiedades demostradas por pruebas.
 

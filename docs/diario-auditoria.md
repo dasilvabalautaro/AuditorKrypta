@@ -172,3 +172,10 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - H-7 y C-001 aparecen corregidos en Kotlin; la deduplicación de invites sigue siendo volátil y acotada a 256 entradas.
 - W-8 queda limitado por la capa Noise/TLS del circuito relayed, según la prueba Go del commit actualizado.
 - Se añadieron notas de revisión por lenguaje y se mantiene la separación entre propiedades de la primitiva AES-GCM y ataques posibles contra el transporte.
+
+### 12:30–13:00 BOT — Consolidación de la revisión de diseño
+
+- Se consolidaron H-4 (secuestro por linaje) y H-5 (KCI/autenticación basada solo en `S`) como limitaciones de diseño abiertas.
+- Se separaron las condiciones W-1/W-2/W-6 de los problemas operativos ya corregidos.
+- W-8 quedó descrito como propiedad del transporte relayed verificado, no como contador de aplicación.
+- Se añadieron recomendaciones priorizadas y referencias cruzadas al informe publicable.
