@@ -187,3 +187,10 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - La copia aislada más reciente pasó `RatchetTest`, `CallServiceTest` y `ChatServiceTest` (`BUILD SUCCESSFUL`).
 - W-6 se actualizó con su impacto operativo real; W-14 registra el límite de deduplicación en RAM tras reinicio.
 - Se eliminó de la matriz cualquier promesa de resistencia KCI o negación plausible.
+
+### 15:00–16:00 BOT — Retest completo del estado `f8d9a75`
+
+- La suite Gradle completa `testDebugUnitTest` terminó `BUILD SUCCESSFUL` (127 tareas, 0 fallos).
+- El puente Go completo pasó con `go test -race -count=1 ./...`.
+- No se observaron regresiones derivadas de la revisión documental de W-6/W-14.
+- Se registró el resultado en `evidence/retest-completo-f8d9a75-2026-09-15.md`.
