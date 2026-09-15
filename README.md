@@ -18,6 +18,7 @@ La auditoría está fijada inicialmente al commit de Krypta `a97cbabd95e3787deca
 - [Revisión de código Kotlin](docs/06-revision-codigo-kotlin.md)
 - [Revisión de código Go](docs/07-revision-codigo-go.md)
 - [Revisión del diseño criptográfico](docs/05-revision-diseno.md)
+- [Revisión de diseño actualizada (`f119237e`)](evidence/revision-diseno-f119237-2026-09-15.md)
 
 Los resultados se incorporarán progresivamente y distinguirán entre afirmaciones del diseño, comportamiento del código y propiedades demostradas por pruebas.
 

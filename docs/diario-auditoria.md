@@ -179,3 +179,11 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - Se separaron las condiciones W-1/W-2/W-6 de los problemas operativos ya corregidos.
 - W-8 quedó descrito como propiedad del transporte relayed verificado, no como contador de aplicación.
 - Se añadieron recomendaciones priorizadas y referencias cruzadas al informe publicable.
+
+### 14:00–14:30 BOT — Revisión de diseño actualizada (`f119237e`/`f8d9a75`)
+
+- GitHub mostró la revisión documental `f119237e…` y la actualización de ayuda `f8d9a75…`.
+- Se confirmó que no hay cambios de producción criptográfica, formato ni esquema.
+- La copia aislada más reciente pasó `RatchetTest`, `CallServiceTest` y `ChatServiceTest` (`BUILD SUCCESSFUL`).
+- W-6 se actualizó con su impacto operativo real; W-14 registra el límite de deduplicación en RAM tras reinicio.
+- Se eliminó de la matriz cualquier promesa de resistencia KCI o negación plausible.

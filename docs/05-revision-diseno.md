@@ -1,11 +1,11 @@
 # Revisión del diseño criptográfico
 
 **Objeto principal:** `a97cbabd95e3787deca872e2157a64473073af6c`  
-**Corrección contrastada:** `fe21111f5dfe4d9ee80e8b8e5972152ee57b53b2`.
+**Correcciones contrastadas:** `fe21111f5dfe4d9ee80e8b8e5972152ee57b53b2`, `f119237e…` y `f8d9a75…`.
 
 ## Conclusión ejecutiva
 
-Las primitivas usadas son estándar (X25519, HKDF-SHA-256, HMAC-SHA-256 y AES-256-GCM), pero varias propiedades dependen de reglas de estado y de la identidad estática `S`. La revisión posterior corrigió los problemas operativos H-0/H-1/H-2/H-3/H-6 y H-7. Permanecen limitaciones de diseño H-4/H-5, W-1/W-2/W-6/W-10/W-12/W-13, que no deben presentarse como propiedades demostradas.
+Las primitivas usadas son estándar (X25519, HKDF-SHA-256, HMAC-SHA-256 y AES-256-GCM), pero varias propiedades dependen de reglas de estado y de la identidad estática `S`. La revisión posterior corrigió H-0/H-1/H-2/H-3/H-6 y H-7. Krypta ahora documenta explícitamente que no promete PFS general, resistencia KCI ni negación plausible. Permanecen H-4/H-5, W-1/W-2/W-6/W-10/W-12/W-13 y W-14.
 
 ## Hallazgos de diseño
 
@@ -30,7 +30,7 @@ No hay contador de aplicación en audio/vídeo. La prueba del commit posterior d
 1. Diseñar una transición de linaje autenticada y no controlable por quien solo conoce `S` (H-4), preservando recuperación tras pérdida de estado.
 2. Decidir explícitamente si se promete resistencia KCI; si sí, añadir binding a identidad/firma y revisar negación plausible (H-5).
 3. Hacer durable la monotonicidad de linajes o documentar el límite de reinstalación/reloj (W-6).
-4. Mantener la deduplicación de señales de llamada persistente si el modelo incluye reinicios; la corrección H-7 actual es solo en RAM.
+4. Mantener la deduplicación de señales de llamada persistente si el modelo incluye reinicios; la corrección H-7 actual es solo en RAM y deja W-14.
 5. Mantener W-8 como propiedad de transporte verificada, no como sustituto de un contador de frame si en el futuro cambia la topología.
 
 ## Estado de verificación
