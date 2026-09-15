@@ -201,3 +201,10 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - H-4 y H-5 continúan como limitaciones de diseño; no se observó una corrección de producción.
 - W-6 se confirmó como problema de disponibilidad/convergencia, no como reutilización práctica de claves.
 - Se añadió la evidencia dirigida en `evidence/retest-h4-h5-w6-2026-09-15.md`.
+
+### 17:00–17:30 BOT — Retest del commit `ebf2d43`
+
+- Se revisó la prueba nueva de H-5 con X25519 reales y se ejecutaron `RatchetTest` y `ChatServiceTest` en un clon aislado: `BUILD SUCCESSFUL`.
+- Se verificó que no quedan bytes NUL en fuentes Kotlin/Go/Markdown versionadas del clon.
+- H-5 queda mejor demostrado, pero continúa abierto; W-6 no cambia y permanece como limitación de disponibilidad.
+- Se registró la evidencia en `evidence/retest-ebf2d43-h5-2026-09-15.md`.
