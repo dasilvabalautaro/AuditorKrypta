@@ -194,3 +194,10 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - El puente Go completo pasó con `go test -race -count=1 ./...`.
 - No se observaron regresiones derivadas de la revisión documental de W-6/W-14.
 - Se registró el resultado en `evidence/retest-completo-f8d9a75-2026-09-15.md`.
+
+### 16:10–16:30 BOT — Retest dirigido H-4/H-5/W-6
+
+- La suite completa confirmó los tests de linaje forjado (H-4), pérdida de estado con reloj atrasado (W-6), duplicados y cabeceras autenticadas.
+- H-4 y H-5 continúan como limitaciones de diseño; no se observó una corrección de producción.
+- W-6 se confirmó como problema de disponibilidad/convergencia, no como reutilización práctica de claves.
+- Se añadió la evidencia dirigida en `evidence/retest-h4-h5-w6-2026-09-15.md`.
