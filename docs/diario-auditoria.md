@@ -208,3 +208,10 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - Se verificó que no quedan bytes NUL en fuentes Kotlin/Go/Markdown versionadas del clon.
 - H-5 queda mejor demostrado, pero continúa abierto; W-6 no cambia y permanece como limitación de disponibilidad.
 - Se registró la evidencia en `evidence/retest-ebf2d43-h5-2026-09-15.md`.
+
+### 18:00–18:30 BOT — Preparación del análisis formal
+
+- Se comprobó que Tamarin y ProVerif no están instalados.
+- Se preparó un modelo abstracto del ratchet con reglas de derivación, consultas objetivo y contraejemplos H-4/H-5/W-6.
+- Se documentaron las diferencias entre el modelo idealizado y la implementación Kotlin/Go.
+- No se presentó ningún resultado como verificación formal ejecutada.
