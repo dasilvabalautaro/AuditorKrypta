@@ -154,3 +154,14 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - W-8 queda abierto como debilidad de frescura/orden; C-001 queda como candidato de disponibilidad/replay, pendiente de medir deduplicación e impacto de llamadas repetidas.
 - La suite dirigida terminó con `BUILD SUCCESSFUL`; el árbol original de Krypta permaneció limpio.
 - Se documentó el lote en `docs/08-verificacion-dinamica.md`.
+
+### 09:30–11:55 BOT — Revisión del commit remoto `fe21111f`
+
+- GitHub mostró un commit nuevo posterior a `ea088b1f…`: `fe21111f…`, con H-7 y pruebas de transporte relayed.
+- Se creó un clon temporal aislado y se fijó al commit remoto; no se ejecutó ninguna herramienta en Krypta original.
+- Pasaron `TestRelayNoVeLoQueViajaPorElCircuito`, las pruebas Go de transporte y `go test -count=1 ./...` del puente.
+- Pasaron las pruebas JVM de `CallServiceTest` y `ChatServiceTest` (`BUILD SUCCESSFUL`).
+- H-7 queda corregido con deduplicación en memoria y ventana futura acotada; la pérdida de deduplicación tras reinicio permanece como limitación.
+- W-8 queda acotado: el relay relayed no ve ni puede repetir frames dentro del circuito; la ausencia de contador en AES-GCM sigue siendo una propiedad de la primitiva, no una explotación demostrada contra ese relay.
+- C-001 debe reformularse como replay v1 sin deduplicación persistente por `callId`; el timestamp futuro es secundario.
+- Los cambios documentales están sin commit, por instrucción del propietario.
