@@ -234,3 +234,10 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - Se contrastó `respuesta-10-registro-hallazgos.md` con la especificación y las pruebas visibles de Krypta, en modo solo lectura.
 - Se aceptaron las adiciones W-7, W-9 y W-11, la descripción ampliada de W-13 y la redacción acotada de W-8.
 - El registro y el informe ahora incluyen evidencia concreta para H-4/H-5/H-6/W-6, costes de compatibilidad de H-4/H-5/W-6/W-12 y la nota de calidad sobre los bytes NUL eliminados en `ebf2d43`.
+
+### 20:10–20:35 BOT — Revisión de observaciones al informe publicable
+
+- Se corrigió H-5 para describir suplantación/KCI, sin sugerir que el robo de identidad rompe pasivamente todas las épocas del ratchet.
+- Se alinearon las severidades con el registro, se precisó W-14 y se incorporaron W-1 y W-10 a la tabla principal.
+- Se sustituyó la atribución imprecisa a Noise por la evidencia de TLS 1.3 sobre TCP directo para W-8.
+- El informe ahora declara autoría, método y carácter preparatorio interno; la respuesta recibida se conserva en `respuesta-informe-publicable.md`.
