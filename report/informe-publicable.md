@@ -9,7 +9,7 @@
 
 Esta revisión cubre el protocolo de sesión de Krypta —ratchet por épocas, negociación de capacidades, claves de llamada y etiquetas del buzón ciego— y el camino criptográfico Kotlin/Go. La implementación usa primitivas estándar (X25519, HKDF y AES-GCM) y cuenta con controles útiles de autenticación de cabeceras, deduplicación y avance de estado.
 
-La revisión identificó y contrastó correcciones operativas para H-0–H-3, H-6 y H-7. Permanecen abiertas limitaciones de diseño y disponibilidad: H-4 (linaje forjado), H-5 (compromiso de la clave estática del receptor), W-6 (pérdida de estado con reloj atrasado) y W-14 (volatilidad del estado de invites). W-8 queda acotado al transporte relay verificado: el relay no puede leer ni fabricar contenido protegido por Noise, aunque sí puede afectar entrega y disponibilidad. La observación C-001 se formula como reproducción de señales de llamada por el camino v1 sin deduplicación por `callId`, cuyo impacto concreto es el spam de “llamada perdida”; la fecha futura y una ventana simétrica no constituyen por sí solas el arreglo.
+La revisión identificó y contrastó correcciones operativas para H-0–H-3, H-6 y H-7. Permanecen abiertas limitaciones de diseño y disponibilidad: H-4 (linaje forjado), H-5 (compromiso de la clave estática del receptor), W-6 (pérdida de estado con reloj atrasado), W-7 (ausencia de protección post-cuántica), W-9 (`PN` no usado), W-11 (respaldo protegido solo por frase), W-14 (volatilidad del estado de invites) y W-13 (metadatos del grafo de parejas, presencia, relay e `identify`). W-8 queda acotado al transporte relay verificado: el relay no puede leer ni fabricar contenido protegido por Noise, aunque sí puede afectar entrega y disponibilidad. La observación C-001 se formula como reproducción de señales de llamada por el camino v1 sin deduplicación por `callId`, cuyo impacto concreto es el spam de “llamada perdida”; la fecha futura y una ventana simétrica no constituyen por sí solas el arreglo.
 
 No se emite una certificación formal ni una afirmación general de forward secrecy, post-compromise security o resistencia KCI. El análisis formal es un modelo abstracto no ejecutado en Tamarin/ProVerif.
 
@@ -30,7 +30,7 @@ La evidencia primaria y las limitaciones de reproducibilidad se detallan en el [
 
 ### Propiedades corregidas o verificadas
 
-H-0–H-3 y H-6 cuentan con correcciones observables en el historial y regresión automatizada. H-7 evita aceptar invites fuera de la política temporal documentada. La prueba de H-5 se reforzó con X25519 reales y confirma que el compromiso de la clave estática del receptor permite reconstruir el secreto de sesión bajo el modelo actual.
+H-0–H-3 y H-6 cuentan con correcciones observables en el historial y regresión automatizada; para H-6, `ChatServiceTest` verifica que volver a añadir un contacto bloqueado no lo desbloquea ni olvida su versión. H-7 evita aceptar invites fuera de la política temporal documentada. La prueba de H-5 se reforzó con X25519 reales y confirma que el compromiso de la clave estática del receptor permite reconstruir el secreto de sesión bajo el modelo actual.
 
 ### Limitaciones abiertas
 
@@ -40,9 +40,12 @@ H-0–H-3 y H-6 cuentan con correcciones observables en el historial y regresió
 | H-5 | Alta | Abierto | El compromiso de la estática receptora permite reconstruir material de sesión; no debe prometerse resistencia KCI/PFS adicional. |
 | W-6 | Media | Abierto | La pérdida o restauración atrasada del estado puede impedir convergencia y causar indisponibilidad. |
 | W-14 | Media | Abierto | El estado de invites es volátil; reinicios pueden reabrir condiciones de aceptación o producir inconsistencias. |
-| C-001 | Baja | Abierto | Reproducción de señales de llamada v1 sin deduplicación por `callId`; impacto: spam de “llamada perdida”. |
+| W-7 | Media (largo plazo) | Abierto | Todo el intercambio actual usa X25519; el diseño híbrido PQ está documentado, pero no implementado. |
+| W-11 | Media | Abierto | El `.krbk` usa PBKDF2-HMAC-SHA256 con 310 000 iteraciones y no tiene factor adicional; permite ataques offline de frase. |
+| W-9 | Informativa | Abierto | `PN` se transmite, pero el receptor no lo usa como comprobación efectiva. |
+| W-13 | Informativa | Abierto | El nodo observa el grafo diario de parejas en la DHT, la presencia, las parejas activas del relay y los protocolos anunciados por `identify`. |
 
-W-1/W-2/W-10/W-12/W-13 permanecen como recomendaciones de robustez y documentación en el registro consolidado; no se presentan como vulnerabilidades explotables demostradas.
+W-1/W-2/W-10/W-12 permanecen como recomendaciones de robustez y documentación en el registro consolidado; W-12 y las correcciones de H-4/H-5/W-6 pueden cambiar el formato de red o la regla de linaje. C-001 no se trata como hallazgo independiente: queda absorbido por H-7/W-14, con el impacto concreto de spam de “llamada perdida”. No se presentan como vulnerabilidades explotables demostradas sin el modelo de amenaza correspondiente.
 
 ## 4. Verificación dinámica
 
@@ -55,6 +58,7 @@ El retest del estado `f8d9a75` completó la suite Gradle sin fallos y la suite G
 3. Persistir o invalidar de forma segura el estado de invites y diseñar recuperación ante rollback para W-6/W-14.
 4. Versionar señales de llamada con `callId`, tipo, emisor y estado monotónico; deduplicar antes de generar notificaciones.
 5. Mantener pruebas de interoperabilidad y reproducibilidad de AAR/APK separadas de las afirmaciones de seguridad del protocolo.
+6. Tratar W-7 y W-11 como riesgos de largo plazo y de recuperación de identidad, no como detalles cosméticos: requieren un ratchet PQ híbrido y una KDF/factor adicional, respectivamente.
 
 ## 6. Limitaciones y declaración
 
@@ -68,4 +72,3 @@ La revisión es independiente y de alcance limitado al material disponible en la
 - [Revisión de código Go](../docs/07-revision-codigo-go.md)
 - [Verificación dinámica](../docs/08-verificacion-dinamica.md)
 - [Especificación normalizada](../evidence/especificacion-normalizada-fase1-2026-09-14.md)
-

@@ -228,3 +228,9 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - Se convirtió el borrador estructural en un informe publicable con alcance, metodología, arquitectura, resultados, tabla de hallazgos, retest, recomendaciones y limitaciones.
 - Se mantuvieron visibles H-4, H-5, W-6, W-14 y C-001, sin presentar el modelo abstracto como verificación formal.
 - El documento se enlazó desde el README; no se modificó Krypta ni su repositorio.
+
+### 19:45–20:05 BOT — Revisión de la respuesta al registro de hallazgos
+
+- Se contrastó `respuesta-10-registro-hallazgos.md` con la especificación y las pruebas visibles de Krypta, en modo solo lectura.
+- Se aceptaron las adiciones W-7, W-9 y W-11, la descripción ampliada de W-13 y la redacción acotada de W-8.
+- El registro y el informe ahora incluyen evidencia concreta para H-4/H-5/H-6/W-6, costes de compatibilidad de H-4/H-5/W-6/W-12 y la nota de calidad sobre los bytes NUL eliminados en `ebf2d43`.
