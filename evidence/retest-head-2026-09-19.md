@@ -29,7 +29,18 @@ ce1a3e515ac613e45256c53cbf77b5191323dbcde4cb752b08d051ca7310711d
 | Puente Go | `go test -race -count=1 ./...` | **PASA** |
 | Nodo Go | `go test -race -count=1 ./...` | **PASA** |
 
-El checkout fuente original siguió limpio después de la revisión. No había ningún dispositivo listado por `adb devices`, por lo que no se ejecutaron pruebas instrumentadas Android ni validación en hardware.
+## Retest instrumentado
+
+El dispositivo `TECNO KM5s` (Android 15, serial `14254155BM000874`) fue autorizado por USB y ejecutó `:app:connectedDebugAndroidTest` con el AAR reconstruido:
+
+- 11 casos reportados;
+- 9 ejecutados correctamente;
+- 2 omitidos por la condición de entorno de descubrimiento DHT;
+- 0 fallos y 0 errores.
+
+Las cuatro pruebas de `Libp2pBridgeTest` pasaron, incluida la comprobación de que `nativeVersion` expone el commit actual. También pasaron las pruebas instrumentadas de notificaciones. Las dos pruebas de descubrimiento (`discoversPeerUnderRendezvousViaDht` y `sendsEncryptedMessageToBootstrapPeerOverStream`) quedaron omitidas, por lo que no se presenta evidencia de conectividad DHT real desde este dispositivo.
+
+El checkout fuente original siguió limpio después de la revisión.
 
 ## Resultados formales
 
