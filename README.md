@@ -25,6 +25,7 @@ La auditoría está fijada inicialmente al commit de Krypta `a97cbabd95e3787deca
 - [Modelo abstracto del ratchet](models/ratchet-core.md)
 - [Análisis formal focalizado](docs/09-analisis-formal.md)
 - [Repetición de auditoría 2026-09-18](evidence/repeticion-auditoria-2026-09-18.md)
+- [Retest del HEAD `58b2286` 2026-09-19](evidence/retest-head-2026-09-19.md)
 - [Registro de hallazgos](docs/10-registro-hallazgos.md)
 - [Borrador del informe publicable](report/informe-publicable-borrador.md)
 - [Informe publicable](report/informe-publicable.md)
