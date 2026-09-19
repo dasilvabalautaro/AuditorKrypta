@@ -15,13 +15,13 @@ Esta revisión cubre el protocolo de sesión de Krypta —ratchet por épocas, n
 
 La revisión identificó y contrastó correcciones operativas para H-0–H-3, H-6 y H-7. Permanecen abiertas limitaciones de diseño y disponibilidad: H-4 (linaje forjado), H-5 (suplantación/KCI), W-6 (pérdida de estado con reloj atrasado), W-7 (ausencia de protección post-cuántica), W-9 (`PN` no usado), W-11 (respaldo protegido solo por frase), W-14 (volatilidad del estado de invites) y W-13 (metadatos del grafo de parejas, presencia, relay e `identify`). W-8 queda acotado a las pruebas de transporte TLS 1.3 descritas en este informe. La observación C-001 se formula como reproducción de señales de llamada por el camino v1 sin deduplicación por `callId`, cuyo impacto concreto es el spam de “llamada perdida”; la fecha futura y una ventana simétrica no constituyen por sí solas el arreglo.
 
-No se emite una certificación formal ni una afirmación general de forward secrecy, post-compromise security o resistencia KCI. El análisis formal es un modelo abstracto no ejecutado en Tamarin/ProVerif.
+No se emite una certificación formal ni una afirmación general de forward secrecy, post-compromise security o resistencia KCI. La repetición del 18 de septiembre ejecutó un modelo simbólico mínimo en ProVerif 2.05: prueba confidencialidad e integridad idealizadas, y reproduce formalmente H-5/KCI cuando `S` está comprometido. Tamarin no se ejecutó.
 
 ## 1. Alcance y metodología
 
 Se inspeccionaron fuentes Kotlin y Go, documentación del protocolo, pruebas unitarias, artefactos AAR/APK disponibles y el historial Git visible. Las pruebas dinámicas se ejecutaron en clones aislados, sin modificar el árbol ni el repositorio de Krypta. Se repitieron suites Gradle y Go, pruebas dirigidas para H-4/H-5/W-6 y controles de integridad de fuentes.
 
-La evidencia primaria y las limitaciones de reproducibilidad se detallan en el [manifiesto y entorno](../docs/01-manifiesto-y-entorno.md), la [revisión de código Kotlin](../docs/06-revision-codigo-kotlin.md), la [revisión de código Go](../docs/07-revision-codigo-go.md) y el [modelo abstracto no ejecutado](../docs/09-analisis-formal.md). El método combina inspección manual, análisis automatizado de fuentes/historial y pruebas dinámicas asistidas por herramientas.
+La evidencia primaria y las limitaciones de reproducibilidad se detallan en el [manifiesto y entorno](../docs/01-manifiesto-y-entorno.md), la [revisión de código Kotlin](../docs/06-revision-codigo-kotlin.md), la [revisión de código Go](../docs/07-revision-codigo-go.md), el [análisis formal focalizado](../docs/09-analisis-formal.md) y la [repetición del 18 de septiembre](../evidence/repeticion-auditoria-2026-09-18.md). El método combina inspección manual, análisis automatizado de fuentes/historial, verificación formal simbólica focalizada y pruebas dinámicas asistidas por herramientas.
 
 ## 2. Arquitectura evaluada
 
@@ -55,7 +55,7 @@ W-2/W-12 permanecen como recomendaciones de robustez y documentación en el regi
 
 ## 4. Verificación dinámica
 
-El retest del estado `f8d9a75` completó la suite Gradle sin fallos y la suite Go con `-race` sin fallos. El retest de `ebf2d43` volvió a ejecutar `RatchetTest` y `ChatServiceTest` con resultado `BUILD SUCCESSFUL`; el escaneo no encontró bytes NUL porque ese commit eliminó los tres bytes literales introducidos por `fe21111` en `CallService.kt` y `ChatService.kt`, que hacían que `grep` tratara los archivos como binarios. Las pruebas dirigidas de H-4, H-5, H-6 y W-6 reproducen las propiedades descritas arriba. La evidencia está en [retest completo](../evidence/retest-completo-f8d9a75-2026-09-15.md), [retest H-4/H-5/W-6](../evidence/retest-h4-h5-w6-2026-09-15.md) y [retest `ebf2d43`](../evidence/retest-ebf2d43-h5-2026-09-15.md).
+El retest del estado `f8d9a75` completó la suite Gradle sin fallos y la suite Go con `-race` sin fallos. La repetición del 18 de septiembre volvió a pasar las suites Gradle y Go, incluidas las dos ejecuciones con `-race`, y ejecutó ProVerif 2.05. El retest de `ebf2d43` volvió a ejecutar `RatchetTest` y `ChatServiceTest` con resultado `BUILD SUCCESSFUL`; el escaneo no encontró bytes NUL porque ese commit eliminó los tres bytes literales introducidos por `fe21111` en `CallService.kt` y `ChatService.kt`, que hacían que `grep` tratara los archivos como binarios. Las pruebas dirigidas de H-4, H-5, H-6 y W-6 reproducen las propiedades descritas arriba. La evidencia está en [repetición 2026-09-18](../evidence/repeticion-auditoria-2026-09-18.md), [retest completo](../evidence/retest-completo-f8d9a75-2026-09-15.md), [retest H-4/H-5/W-6](../evidence/retest-h4-h5-w6-2026-09-15.md) y [retest `ebf2d43`](../evidence/retest-ebf2d43-h5-2026-09-15.md).
 
 ## 5. Recomendaciones
 
@@ -68,7 +68,7 @@ El retest del estado `f8d9a75` completó la suite Gradle sin fallos y la suite G
 
 ## 6. Limitaciones y declaración
 
-La revisión es independiente y de alcance limitado al material disponible en la fecha de corte. No incluye auditoría del sistema operativo, hardware seguro, generación de entropía del dispositivo, infraestructura de despliegue ni revisión criptográfica formal automatizada. Un resultado de prueba indica comportamiento observado, no una prueba matemática de seguridad.
+La revisión es independiente y de alcance limitado al material disponible en la fecha de corte. No incluye auditoría del sistema operativo, hardware seguro, generación de entropía del dispositivo, infraestructura de despliegue ni una verificación formal completa de todas las capas. El modelo ProVerif ejecutado es focalizado y simbólico; un resultado de prueba indica comportamiento observado, no una prueba matemática de seguridad de la implementación completa.
 
 ## Referencias
 

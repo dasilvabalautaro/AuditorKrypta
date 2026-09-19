@@ -1,0 +1,52 @@
+(*
+   Krypta ratchet: modelo simbólico mínimo.
+   Abstrae HKDF, X25519 y AEAD como funciones ideales.
+*)
+
+type key.
+type lineage.
+type epoch.
+type counter.
+
+free net: channel.
+free static_secret: key [private].
+free message: bitstring [private].
+free l0: lineage.
+free e0: epoch.
+free n0: counter.
+free header: bitstring.
+free send_domain: bitstring.
+
+fun root(key, lineage): key.
+fun chain(key, epoch, bitstring): key.
+fun message_key(key, counter): key.
+
+fun seal(bitstring, key, bitstring): bitstring.
+reduc forall m:bitstring, k:key, h:bitstring;
+  open(seal(m, k, h), k, h) = m.
+
+event sent(bitstring).
+event opened(bitstring).
+
+(* The wire header is authenticated as AEAD associated data. *)
+let sender =
+  let rk = root(static_secret, l0) in
+  let ck = chain(rk, e0, send_domain) in
+  let mk = message_key(ck, n0) in
+  let wire = seal(message, mk, header) in
+  event sent(message);
+  out(net, wire).
+
+let receiver =
+  in(net, wire:bitstring);
+  let rk = root(static_secret, l0) in
+  let ck = chain(rk, e0, send_domain) in
+  let mk = message_key(ck, n0) in
+  let clear = open(wire, mk, header) in
+  event opened(clear).
+
+query attacker(message).
+query event(opened(message)) ==> event(sent(message)).
+
+process
+  (!sender | !receiver)

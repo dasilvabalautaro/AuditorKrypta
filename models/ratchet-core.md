@@ -1,6 +1,6 @@
 # Modelo abstracto del núcleo del ratchet
 
-**Estado:** especificación para futura ejecución en Tamarin/ProVerif; no ejecutada porque ninguna de las herramientas está instalada.
+**Estado:** modelo abstracto ejecutable en ProVerif 2.05. Los resultados se separan en [`ratchet-secrecy.pv`](ratchet-secrecy.pv) y [`ratchet-kci.pv`](ratchet-kci.pv); el primero prueba propiedades ideales y el segundo reproduce deliberadamente H-5.
 
 ## Sorts y funciones
 

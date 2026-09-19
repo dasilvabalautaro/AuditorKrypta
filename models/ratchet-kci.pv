@@ -1,0 +1,41 @@
+(*
+   H-5/KCI: el protocolo modelado autentica al nivel del secreto estatico.
+   Si el atacante conoce S, puede construir un sobre valido para una identidad
+   concreta sin poseer su clave de identidad.
+*)
+
+type key.
+type identity.
+
+free net: channel.
+free compromised_static: key.
+free claimed_peer: identity.
+free forged_message: bitstring [private].
+
+fun root(key): key.
+fun message_key(key): key.
+fun seal(bitstring, key, identity): bitstring.
+reduc forall m:bitstring, k:key, id:identity;
+  open(seal(m, k, id), k, id) = m.
+
+event sent_by_legitimate_peer(bitstring).
+event accepted_as_peer(identity, bitstring).
+
+let forged_sender =
+  let rk = root(compromised_static) in
+  let mk = message_key(rk) in
+  out(net, seal(forged_message, mk, claimed_peer)).
+
+let receiver =
+  in(net, wire:bitstring);
+  let rk = root(compromised_static) in
+  let mk = message_key(rk) in
+  let clear = open(wire, mk, claimed_peer) in
+  event accepted_as_peer(claimed_peer, clear).
+
+(* This correspondence is intentionally false: it is the formal H-5 result. *)
+query event(accepted_as_peer(claimed_peer, forged_message)) ==>
+  event(sent_by_legitimate_peer(forged_message)).
+
+process
+  (!forged_sender | !receiver)

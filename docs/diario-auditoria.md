@@ -241,3 +241,14 @@ Intentar una reconstrucción independiente del AAR desde la etiqueta y diseñar 
 - Se alinearon las severidades con el registro, se precisó W-14 y se incorporaron W-1 y W-10 a la tabla principal.
 - Se sustituyó la atribución imprecisa a Noise por la evidencia de TLS 1.3 sobre TCP directo para W-8.
 - El informe ahora declara autoría, método y carácter preparatorio interno; la respuesta recibida se conserva en `respuesta-informe-publicable.md`.
+
+## 18 de septiembre de 2026
+
+### 11:45–12:10 BOT — Repetición completa con verificación formal
+
+- Se confirmó ProVerif 2.05 instalado en el switch OPAM `default` y se añadieron modelos ejecutables para confidencialidad/integridad idealizadas y H-5/KCI.
+- ProVerif probó `not attacker(message)` y la correspondencia de apertura con envío en `models/ratchet-secrecy.pv`.
+- ProVerif encontró una traza válida de aceptación forjada en `models/ratchet-kci.pv`, confirmando formalmente H-5 bajo el modelo de autenticación al nivel de `S`.
+- La suite Gradle `testDebugUnitTest` pasó con `BUILD SUCCESSFUL` y 279 pruebas.
+- Las suites Go normales y con `-race` pasaron en `native-bridge/libp2p` e `infra/node`; fue necesario permitir sockets loopback para las pruebas libp2p.
+- Se actualizó el análisis formal, el informe publicable y el README. La evidencia completa está en `evidence/repeticion-auditoria-2026-09-18.md`.
